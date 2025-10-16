@@ -54,30 +54,31 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ├── .gitignore           # Bỏ qua các file không cần commit
 ├── docker-compose.yml   # Định nghĩa & kết nối các container
 └── README.md            # Tài liệu mô tả dự án
+## 🧱 4. Hướng dẫn cài đặt và chạy dự án
 
-🧱 4. Hướng dẫn cài đặt và khởi chạy
-📋 Yêu cầu trước khi bắt đầu
+---
 
-Cần cài đặt:
+### 📋 **Yêu cầu**
 
-Docker Desktop
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
 
-Docker Compose
+---
 
-Git
+### 🚀 **Các bước thực hiện**
 
-🔹 Bước 1: Clone dự án về máy
-git clone <your-repository-url>
-cd EProject-Phase-1
+---
 
-🔹 Bước 2: Tạo file .env cho từng service
+#### **2️⃣. Tạo file môi trường `.env`**
 
-Các file .env giúp lưu trữ thông tin môi trường (Port, JWT, MongoDB URI, RabbitMQ,…).
+Dự án yêu cầu nhiều file `.env` để lưu biến môi trường.  
+Tạo các file theo hướng dẫn sau:
 
-📁 File .env tại thư mục gốc
-```bash
-RABBITMQ_USER=myuser
-RABBITMQ_PASS=mypassword
+- **File `.env` tại thư mục gốc:**
+  ```env
+  RABBITMQ_USER=myuser
+  RABBITMQ_PASS=mypassword
 
 📁 File auth/.env
 ```bash
@@ -124,13 +125,13 @@ Tất cả request được gửi qua API Gateway tại:
 http://localhost:3003
 
 📊 Danh sách Endpoint
-Nhóm chức năng	Phương thức	Endpoint	Xác thực
-Authentication	POST	/auth/register	❌
-	POST	/auth/login	❌
-Product	GET	/products	✅ Bearer Token
-	POST	/products	✅ Bearer Token
-Order	POST	/orders	✅ Bearer Token
-	GET	/orders	✅ Bearer Token
+Chức năng	Method	Endpoint	Xác thực
+Authentication	POST	/auth/register	Không
+	POST	/auth/login	Không
+Products	GET	/products	Có (Bearer Token)
+	POST	/products	Có (Bearer Token)
+Orders	POST	/orders	Có (Bearer Token)
+	GET	/orders	Có (Bearer Token)
 🔹 Bước 5: Test các API bằng Postman
 
 Mở Postman
