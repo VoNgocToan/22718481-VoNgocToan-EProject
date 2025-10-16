@@ -54,123 +54,157 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ├── .gitignore           # Bỏ qua các file không cần commit
 ├── docker-compose.yml   # Định nghĩa & kết nối các container
 └── README.md            # Tài liệu mô tả dự án
-```bash
+## 🧱 4. Hướng dẫn cài đặt và chạy dự án
+
 ---
-🧱 4. Hướng dẫn cài đặt và khởi chạy
-📋 Yêu cầu trước khi bắt đầu
 
-Cần cài đặt:
+### 🧾 **Yêu cầu**
 
-Docker Desktop
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
 
-Docker Compose
+---
 
-Git
+### 🚀 **Các bước thực hiện**
 
-🔹 Bước 1: Clone dự án về máy
-git clone <your-repository-url>
-cd EProject-Phase-1
+---
 
-🔹 Bước 2: Tạo file .env cho từng service
+#### **2️⃣. Tạo file môi trường `.env`**
 
-Các file .env giúp lưu trữ thông tin môi trường (Port, JWT, MongoDB URI, RabbitMQ,…).
+Dự án yêu cầu nhiều file `.env` để lưu biến môi trường.  
+Tạo các file theo hướng dẫn sau:
 
-📁 File .env tại thư mục gốc
+##### 📁 **File `.env` tại thư mục gốc:**
+```bash
 RABBITMQ_USER=myuser
 RABBITMQ_PASS=mypassword
+```
 
-📁 File auth/.env
+##### 📁 **File `auth/.env`**
+```bash
 PORT=3000
 MONGODB_URI=mongodb://mongo-auth:27017/authdb
 JWT_SECRET=supersecretkey
+```
 
-📁 File product/.env
+##### 📁 **File `product/.env`**
+```bash
 PORT=3001
 MONGODB_URI=mongodb://mongo-product:27017/productdb
 RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
 JWT_SECRET=supersecretkey
+```
 
-📁 File order/.env
+##### 📁 **File `order/.env`**
+```bash
 PORT=3002
 MONGODB_URI=mongodb://mongo-order:27017/orderdb
 RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
 JWT_SECRET=supersecretkey
+```
 
-🔹 Bước 3: Khởi chạy toàn bộ hệ thống bằng Docker Compose
+---
+
+### 🔹 **Bước 3: Khởi chạy toàn bộ hệ thống bằng Docker Compose**
+```bash
 docker compose up --build -d
+```
+🧩 **Giải thích:**
+- `--build`: Tự động build lại image nếu có thay đổi.
+- `-d`: Chạy container ở chế độ nền (detached mode).
 
+---
 
-Giải thích:
-
---build: Tự động build lại image nếu có thay đổi.
--d: Chạy container ở chế độ nền (detached mode).
-
-🔹 Bước 4: Kiểm tra trạng thái container
+### 🔹 **Bước 4: Kiểm tra trạng thái container**
+```bash
 docker compose ps
-Kết quả mong đợi:
-Khoảng 8 container ở trạng thái Up (3 service chính, 3 MongoDB, 1 RabbitMQ, 1 API Gateway).
+```
+📊 **Kết quả mong đợi:**
+> Khoảng **8 container** ở trạng thái **Up**  
+> (3 service chính, 3 MongoDB, 1 RabbitMQ, 1 API Gateway)
 
-🌐 5. Cách sử dụng & kiểm thử API
-📍 API Gateway
+---
 
+## 🌐 **5. Cách sử dụng & kiểm thử API**
+
+### 📍 API Gateway
 Tất cả request được gửi qua API Gateway tại:
-
+```
 http://localhost:3003
+```
 
-📊 Danh sách Endpoint
-Nhóm chức năng	Phương thức	Endpoint	Xác thực
-Authentication	POST	/auth/register	❌
-	POST	/auth/login	❌
-Product	GET	/products	✅ Bearer Token
-	POST	/products	✅ Bearer Token
-Order	POST	/orders	✅ Bearer Token
-	GET	/orders	✅ Bearer Token
-🔹 Bước 5: Test các API bằng Postman
+### 📊 **Danh sách Endpoint**
 
-Mở Postman
+| Chức năng | Method | Endpoint | Xác thực |
+|------------|---------|-----------|-----------|
+| Authentication | POST | /auth/register | ❌ |
+|  | POST | /auth/login | ❌ |
+| Products | GET | /products | ✅ (Bearer Token) |
+|  | POST | /products | ✅ |
+| Orders | POST | /orders | ✅ |
+|  | GET | /orders | ✅ |
 
-Gửi request đến http://localhost:3003/auth/register để đăng ký tài khoản
+---
 
-Đăng nhập qua http://localhost:3003/auth/login để nhận JWT Token
+### 🔹 **Bước 5: Test các API bằng Postman**
 
-Dùng Token đó để truy cập các API có bảo mật (ví dụ: /products, /orders)
+1. Mở **Postman**
+2. Gửi request:  
+   `POST http://localhost:3003/auth/register` → **Đăng ký tài khoản mới**
+3. Tiếp tục:  
+   `POST http://localhost:3003/auth/login` → **Đăng nhập và nhận JWT Token**
+4. Dùng **JWT Token** để truy cập các API có bảo mật (ví dụ: `/products`, `/orders`)
 
-💡 Hãy đảm bảo RabbitMQ và MongoDB đang chạy trước khi test.
+💡 **Lưu ý:**  
+Đảm bảo RabbitMQ và MongoDB đã chạy **trước khi test API**.
 
-🧪 6. Chạy kiểm thử (Testing)
-🔹 Bước 6: Chạy test cho từng service riêng lẻ
+---
 
-Ví dụ kiểm thử service auth:
+## 🧪 **6. Chạy kiểm thử (Testing)**
 
+🔹 **Ví dụ kiểm thử service Auth:**
+```bash
 cd auth
 npm test
+```
+🧩 **Giải thích:**
+- `cd auth`: Di chuyển đến thư mục chứa service cần test.  
+- `npm test`: Chạy toàn bộ file test (sử dụng Mocha + Chai).
 
+⚠️ **Chú ý:**  
+Trước khi test, đảm bảo **MongoDB** và **RabbitMQ** đang hoạt động.
 
-Giải thích:
+---
 
-cd auth: Di chuyển đến thư mục service cần test.
-
-npm test: Chạy toàn bộ file test (dùng Mocha + Chai).
-
-⚠️ Trước khi test, đảm bảo các container phụ thuộc (MongoDB, RabbitMQ) đã chạy.
-
-🧾 7. Ghi chú quan trọng
-🚫 Không commit các file sau vào GitHub
+## 🧾 **7. Ghi chú quan trọng**
+🚫 **Không commit các file sau vào GitHub:**
+```
 .env
 node_modules
 .DS_Store
+```
 
-🧱 Gợi ý thêm
+---
 
-Cập nhật README.md nếu có thay đổi cấu trúc hoặc cổng service.
+### 🧱 **Gợi ý thêm**
+
+Cập nhật `README.md` khi có thay đổi về:
+- Cấu trúc thư mục
+- Cổng dịch vụ
+- Biến môi trường
 
 Khi push lên GitHub:
-
+```bash
 git add .
 git commit -m "Update project setup and README"
 git push
+```
 
-✍️ Tác giả
-Võ Ngọc Toàn
-🎓 Sinh viên Trường Đại học Công Nghiệp TP. Hồ Chí Minh
-📘 Dự án EProject - Phase 1: Hệ thống Microservices Quản lý Bán Hàng
+---
+
+✍️ **Tác giả**
+
+**Võ Ngọc Toàn**  
+🎓 Sinh viên Trường Đại học Công Nghiệp TP. Hồ Chí Minh  
+📘 *Dự án EProject - Phase 1: Hệ thống Microservices Quản lý Bán Hàng*
