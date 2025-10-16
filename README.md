@@ -54,6 +54,8 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ├── .gitignore           # Bỏ qua các file không cần commit
 ├── docker-compose.yml   # Định nghĩa & kết nối các container
 └── README.md            # Tài liệu mô tả dự án
+
+---
 ## 🧱 4. Hướng dẫn cài đặt và chạy dự án
 
 ---
