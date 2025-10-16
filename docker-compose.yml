@@ -1,0 +1,129 @@
+version: '3.8'
+
+services:
+  # === APPLICATION SERVICES ===
+  auth:
+    build: ./auth
+    container_name: auth_service
+    env_file:
+      - ./auth/.env
+    ports:
+      - "3000:3000"
+    networks:
+      - microservice-network
+    depends_on:
+      mongo-auth:
+        condition: service_started
+      # Thêm phụ thuộc vào rabbitmq và chờ cho đến khi nó sẵn sàng
+      rabbitmq:
+        condition: service_healthy
+
+  product:
+    build: ./product
+    container_name: product_service
+    env_file:
+      - ./product/.env
+    ports:
+      - "3001:3001"
+    networks:
+      - microservice-network
+    depends_on:
+      mongo-product:
+        condition: service_started
+      # Cập nhật depends_on để chờ rabbitmq healthy
+      rabbitmq:
+        condition: service_healthy
+
+  order:
+    build: ./order
+    container_name: order_service
+    env_file:
+      - ./order/.env
+    ports:
+      - "3002:3002"
+    networks:
+      - microservice-network
+    depends_on:
+      mongo-order:
+        condition: service_started
+      # Cập nhật depends_on để chờ rabbitmq healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # === INFRASTRUCTURE SERVICES ===
+  api-gateway:
+    build: ./api-gateway
+    container_name: api_gateway
+    ports:
+      - "3003:3003"
+    networks:
+      - microservice-network
+    depends_on:
+      - auth
+      - product
+      - order
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    #env_file:
+      #- .env
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - microservice-network
+    # Thêm Healthcheck để đảm bảo RabbitMQ sẵn sàng trước khi các service khác kết nối
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # === DATABASE CONTAINERS (ONE PER SERVICE) ===
+  mongo-auth:
+    image: mongo:latest
+    container_name: mongodb_for_auth
+    ports:
+      - "27117:27017"
+    volumes:
+      - mongo-auth-data:/data/db
+    networks:
+      - microservice-network
+
+  mongo-product:
+    image: mongo:latest
+    container_name: mongodb_for_product
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-product-data:/data/db
+    networks:
+      - microservice-network
+
+  mongo-order:
+    image: mongo:latest
+    container_name: mongodb_for_order
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo-order-data:/data/db
+    networks:
+      - microservice-network
+
+# === NETWORKS AND VOLUMES DEFINITIONS ===
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  rabbitmq-data:
+    driver: local
+  mongo-auth-data:
+    driver: local
+  mongo-product-data:
+    driver: local
+  mongo-order-data:
+    driver: local
