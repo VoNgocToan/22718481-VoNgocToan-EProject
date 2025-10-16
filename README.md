@@ -54,7 +54,8 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ├── .gitignore           # Bỏ qua các file không cần commit
 ├── docker-compose.yml   # Định nghĩa & kết nối các container
 └── README.md            # Tài liệu mô tả dự án
-
+```bash
+---
 🧱 4. Hướng dẫn cài đặt và khởi chạy
 📋 Yêu cầu trước khi bắt đầu
 
@@ -75,25 +76,21 @@ cd EProject-Phase-1
 Các file .env giúp lưu trữ thông tin môi trường (Port, JWT, MongoDB URI, RabbitMQ,…).
 
 📁 File .env tại thư mục gốc
-```bash
 RABBITMQ_USER=myuser
 RABBITMQ_PASS=mypassword
 
 📁 File auth/.env
-```bash
 PORT=3000
 MONGODB_URI=mongodb://mongo-auth:27017/authdb
 JWT_SECRET=supersecretkey
 
 📁 File product/.env
-```bash
 PORT=3001
 MONGODB_URI=mongodb://mongo-product:27017/productdb
 RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
 JWT_SECRET=supersecretkey
 
 📁 File order/.env
-```bash
 PORT=3002
 MONGODB_URI=mongodb://mongo-order:27017/orderdb
 RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
@@ -106,13 +103,10 @@ docker compose up --build -d
 Giải thích:
 
 --build: Tự động build lại image nếu có thay đổi.
-
 -d: Chạy container ở chế độ nền (detached mode).
 
 🔹 Bước 4: Kiểm tra trạng thái container
 docker compose ps
-
-
 Kết quả mong đợi:
 Khoảng 8 container ở trạng thái Up (3 service chính, 3 MongoDB, 1 RabbitMQ, 1 API Gateway).
 
@@ -177,7 +171,6 @@ git commit -m "Update project setup and README"
 git push
 
 ✍️ Tác giả
-
 Võ Ngọc Toàn
 🎓 Sinh viên Trường Đại học Công Nghiệp TP. Hồ Chí Minh
 📘 Dự án EProject - Phase 1: Hệ thống Microservices Quản lý Bán Hàng
