@@ -1,11 +1,11 @@
-# 🛍️ Hệ thống Microservices Quản lý Bán Hàng (EProject - Phase 1)
+#  Hệ thống Microservices Quản lý Bán Hàng (EProject - Phase 1)
 
 Dự án mô phỏng một **hệ thống thương mại điện tử cơ bản** được phát triển theo kiến trúc **Microservices**, sử dụng **Node.js**, **Express**, **MongoDB**, và được **container hóa bằng Docker**.  
-🎯 **Mục tiêu:** Giúp sinh viên làm quen với cách xây dựng và triển khai ứng dụng phân tán trong thực tế.
+ **Mục tiêu:** Giúp sinh viên làm quen với cách xây dựng và triển khai ứng dụng phân tán trong thực tế.
 
 ---
 
-## 🧩 1. Kiến trúc hệ thống
+##  1. Kiến trúc hệ thống
 
 Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu trách nhiệm cho một phần nghiệp vụ riêng biệt:
 
@@ -16,7 +16,7 @@ Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu tr
 
 ---
 
-### 🔗 Giao tiếp giữa các service
+###  Giao tiếp giữa các service
 
 - **Đồng bộ (Synchronous):** Thông qua các API RESTful, tất cả request đều đi qua **API Gateway**.  
 - **Bất đồng bộ (Asynchronous):** Các service giao tiếp nội bộ qua **RabbitMQ**, ví dụ:  
@@ -24,13 +24,13 @@ Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu tr
 
 ---
 
-### 🗄️ Cơ sở dữ liệu
+###  Cơ sở dữ liệu
 
 Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có một cơ sở dữ liệu riêng (container MongoDB riêng biệt), giúp đảm bảo tính độc lập và tách biệt dữ liệu.
 
 ---
 
-## ⚙️ 2. Công nghệ sử dụng
+##  2. Công nghệ sử dụng
 
 | Thành phần | Công nghệ |
 |-------------|-----------|
@@ -42,7 +42,7 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 
 ---
 
-## 🗂️ 3. Cấu trúc thư mục
+##  3. Cấu trúc thư mục
 
 ```bash
 .
@@ -54,11 +54,11 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ├── .gitignore           # Bỏ qua các file không cần commit
 ├── docker-compose.yml   # Định nghĩa & kết nối các container
 └── README.md            # Tài liệu mô tả dự án
-## 🧱 4. Hướng dẫn cài đặt và chạy dự án
+##  4. Hướng dẫn cài đặt và chạy dự án
 
 ---
 
-### 🧾 **Yêu cầu**
+###  **Yêu cầu**
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
@@ -66,29 +66,29 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 
 ---
 
-### 🚀 **Các bước thực hiện**
+###  **Các bước thực hiện**
 
 ---
 
-#### **2️⃣. Tạo file môi trường `.env`**
+#### **2️. Tạo file môi trường `.env`**
 
 Dự án yêu cầu nhiều file `.env` để lưu biến môi trường.  
 Tạo các file theo hướng dẫn sau:
 
-##### 📁 **File `.env` tại thư mục gốc:**
+#####  **File `.env` tại thư mục gốc:**
 ```bash
 RABBITMQ_USER=myuser
 RABBITMQ_PASS=mypassword
 ```
 
-##### 📁 **File `auth/.env`**
+#####  **File `auth/.env`**
 ```bash
 PORT=3000
 MONGODB_URI=mongodb://mongo-auth:27017/authdb
 JWT_SECRET=supersecretkey
 ```
 
-##### 📁 **File `product/.env`**
+#####  **File `product/.env`**
 ```bash
 PORT=3001
 MONGODB_URI=mongodb://mongo-product:27017/productdb
@@ -96,7 +96,7 @@ RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
 JWT_SECRET=supersecretkey
 ```
 
-##### 📁 **File `order/.env`**
+#####  **File `order/.env`**
 ```bash
 PORT=3002
 MONGODB_URI=mongodb://mongo-order:27017/orderdb
@@ -106,11 +106,11 @@ JWT_SECRET=supersecretkey
 
 ---
 
-### 🔹 **Bước 3: Khởi chạy toàn bộ hệ thống bằng Docker Compose**
+###  **Bước 3: Khởi chạy toàn bộ hệ thống bằng Docker Compose**
 ```bash
 docker compose up --build -d
 ```
-🧩 **Giải thích:**
+ **Giải thích:**
 - `--build`: Tự động build lại image nếu có thay đổi.
 - `-d`: Chạy container ở chế độ nền (detached mode).
 
@@ -120,7 +120,7 @@ docker compose up --build -d
 ```bash
 docker compose ps
 ```
-📊 **Kết quả mong đợi:**
+**Kết quả mong đợi:**
 > Khoảng **8 container** ở trạng thái **Up**  
 > (3 service chính, 3 MongoDB, 1 RabbitMQ, 1 API Gateway)
 
@@ -128,13 +128,13 @@ docker compose ps
 
 ## 🌐 **5. Cách sử dụng & kiểm thử API**
 
-### 📍 API Gateway
+###  API Gateway
 Tất cả request được gửi qua API Gateway tại:
 ```
 http://localhost:3003
 ```
 
-### 📊 **Danh sách Endpoint**
+###  **Danh sách Endpoint**
 
 | Chức năng | Method | Endpoint | Xác thực |
 |------------|---------|-----------|-----------|
@@ -156,29 +156,29 @@ http://localhost:3003
    `POST http://localhost:3003/auth/login` → **Đăng nhập và nhận JWT Token**
 4. Dùng **JWT Token** để truy cập các API có bảo mật (ví dụ: `/products`, `/orders`)
 
-💡 **Lưu ý:**  
+ **Lưu ý:**  
 Đảm bảo RabbitMQ và MongoDB đã chạy **trước khi test API**.
 
 ---
 
-## 🧪 **6. Chạy kiểm thử (Testing)**
+##  **6. Chạy kiểm thử (Testing)**
 
 🔹 **Ví dụ kiểm thử service Auth:**
 ```bash
 cd auth
 npm test
 ```
-🧩 **Giải thích:**
+ **Giải thích:**
 - `cd auth`: Di chuyển đến thư mục chứa service cần test.  
 - `npm test`: Chạy toàn bộ file test (sử dụng Mocha + Chai).
 
-⚠️ **Chú ý:**  
+ **Chú ý:**  
 Trước khi test, đảm bảo **MongoDB** và **RabbitMQ** đang hoạt động.
 
 ---
 
-## 🧾 **7. Ghi chú quan trọng**
-🚫 **Không commit các file sau vào GitHub:**
+##  **7. Ghi chú quan trọng**
+ **Không commit các file sau vào GitHub:**
 ```
 .env
 node_modules
@@ -187,7 +187,7 @@ node_modules
 
 ---
 
-### 🧱 **Gợi ý thêm**
+###  **Gợi ý thêm**
 
 Cập nhật `README.md` khi có thay đổi về:
 - Cấu trúc thư mục
@@ -203,8 +203,8 @@ git push
 
 ---
 
-✍️ **Tác giả**
+ **Tác giả**
 
 **Võ Ngọc Toàn**  
-🎓 Sinh viên Trường Đại học Công Nghiệp TP. Hồ Chí Minh  
-📘 *Dự án EProject - Phase 1: Hệ thống Microservices Quản lý Bán Hàng*
+ Sinh viên Trường Đại học Công Nghiệp TP. Hồ Chí Minh  
+ *Dự án EProject - Phase 1: Hệ thống Microservices Quản lý Bán Hàng*
