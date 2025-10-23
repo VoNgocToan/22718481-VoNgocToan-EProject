@@ -141,7 +141,7 @@ http://localhost:3003
 
 ---
 
-### 🔹 **Bước 5: Test các API bằng Postman**
+### 🔹 **Bước 5.1: Test các API bằng Postman**
 
 1. Mở **Postman**
 2. Gửi request:  
@@ -155,7 +155,7 @@ http://localhost:3003
 
 ---
 
-##  **6. Chạy kiểm thử (Testing)**
+##  **5.2. Chạy kiểm thử (Testing)**
 
 🔹 **Ví dụ kiểm thử service Auth:**
 ```bash
@@ -171,7 +171,7 @@ Trước khi test, đảm bảo **MongoDB** và **RabbitMQ** đang hoạt độn
 
 ---
 
-##  **7. Ghi chú quan trọng**
+##  **5.3. Ghi chú quan trọng**
  **Không commit các file sau vào GitHub:**
 ```
 .env
