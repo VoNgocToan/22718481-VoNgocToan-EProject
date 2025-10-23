@@ -74,31 +74,29 @@ Tạo các file theo hướng dẫn sau:
 
 #####  **File `.env` tại thư mục gốc:**
 ```bash
-RABBITMQ_USER=myuser
-RABBITMQ_PASS=mypassword
+RABBITMQ_USER=
+RABBITMQ_PASS=
 ```
 
 #####  **File `auth/.env`**
 ```bash
-PORT=3000
-MONGODB_URI=mongodb://mongo-auth:27017/authdb
-JWT_SECRET=supersecretkey
+PORT=
+MONGODB_URI=
+JWT_SECRET=
 ```
 
 #####  **File `product/.env`**
 ```bash
-PORT=3001
-MONGODB_URI=mongodb://mongo-product:27017/productdb
-RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
-JWT_SECRET=supersecretkey
+PORT=
+MONGODB_URI=
+JWT_SECRET=
 ```
 
 #####  **File `order/.env`**
 ```bash
-PORT=3002
-MONGODB_URI=mongodb://mongo-order:27017/orderdb
-RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
-JWT_SECRET=supersecretkey
+PORT=
+MONGODB_URI=
+JWT_SECRET=
 ```
 
 
