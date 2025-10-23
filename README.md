@@ -14,7 +14,6 @@ Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu tr
 - **Product Service:** Cung cấp chức năng CRUD sản phẩm, quản lý tồn kho và giá bán.  
 - **Order Service:** Xử lý việc tạo và quản lý đơn hàng, liên kết với các service khác thông qua **RabbitMQ**.
 
----
 
 ### - Giao tiếp giữa các service
 
@@ -22,7 +21,6 @@ Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu tr
 - **Bất đồng bộ (Asynchronous):** Các service giao tiếp nội bộ qua **RabbitMQ**, ví dụ:  
   Khi **Order Service** tạo đơn hàng mới, nó gửi thông báo cho **Product Service** để cập nhật tồn kho.
 
----
 
 ### - Cơ sở dữ liệu
 
@@ -59,19 +57,13 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ##  4. Hướng dẫn cài đặt và chạy dự án
 
 
----
-
 ###  **Yêu cầu**
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Git](https://git-scm.com/)
 
----
-
 ###  **Các bước thực hiện**
-
----
 
 #### **1. Tạo file môi trường `.env`**
 
@@ -108,7 +100,6 @@ RABBITMQ_URI=amqp://myuser:mypassword@rabbitmq:5672
 JWT_SECRET=supersecretkey
 ```
 
----
 
 ###  **Bước 2: Khởi chạy toàn bộ hệ thống bằng Docker Compose**
 ```bash
@@ -118,7 +109,6 @@ docker compose up --build -d
 - `--build`: Tự động build lại image nếu có thay đổi.
 - `-d`: Chạy container ở chế độ nền (detached mode).
 
----
 
 ### 🔹 **Bước 3: Kiểm tra trạng thái container**
 ```bash
