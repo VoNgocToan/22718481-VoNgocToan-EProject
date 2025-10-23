@@ -16,7 +16,7 @@ Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu tr
 
 ---
 
-###  Giao tiếp giữa các service
+### - Giao tiếp giữa các service
 
 - **Đồng bộ (Synchronous):** Thông qua các API RESTful, tất cả request đều đi qua **API Gateway**.  
 - **Bất đồng bộ (Asynchronous):** Các service giao tiếp nội bộ qua **RabbitMQ**, ví dụ:  
@@ -24,7 +24,7 @@ Hệ thống bao gồm nhiều **service độc lập**, mỗi service chịu tr
 
 ---
 
-###  Cơ sở dữ liệu
+### - Cơ sở dữ liệu
 
 Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có một cơ sở dữ liệu riêng (container MongoDB riêng biệt), giúp đảm bảo tính độc lập và tách biệt dữ liệu.
 
@@ -54,7 +54,10 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 ├── .gitignore           # Bỏ qua các file không cần commit
 ├── docker-compose.yml   # Định nghĩa & kết nối các container
 └── README.md            # Tài liệu mô tả dự án
+```
+
 ##  4. Hướng dẫn cài đặt và chạy dự án
+
 
 ---
 
@@ -70,10 +73,11 @@ Tuân thủ nguyên tắc **“Database per Service”** — mỗi service có m
 
 ---
 
-#### **2️. Tạo file môi trường `.env`**
+#### **1. Tạo file môi trường `.env`**
 
 Dự án yêu cầu nhiều file `.env` để lưu biến môi trường.  
 Tạo các file theo hướng dẫn sau:
+
 
 #####  **File `.env` tại thư mục gốc:**
 ```bash
@@ -106,7 +110,7 @@ JWT_SECRET=supersecretkey
 
 ---
 
-###  **Bước 3: Khởi chạy toàn bộ hệ thống bằng Docker Compose**
+###  **Bước 2: Khởi chạy toàn bộ hệ thống bằng Docker Compose**
 ```bash
 docker compose up --build -d
 ```
@@ -116,7 +120,7 @@ docker compose up --build -d
 
 ---
 
-### 🔹 **Bước 4: Kiểm tra trạng thái container**
+### 🔹 **Bước 3: Kiểm tra trạng thái container**
 ```bash
 docker compose ps
 ```
