@@ -81,22 +81,25 @@ RABBITMQ_PASS=
 #####  **File `auth/.env`**
 ```bash
 PORT=
-MONGODB_URI=
+MONGODB_AUTH_URI=
 JWT_SECRET=
 ```
 
 #####  **File `product/.env`**
 ```bash
 PORT=
-MONGODB_URI=
+MONGODB_AUTH_URI=
 JWT_SECRET=
+MONGODB_PRODUCT_URI=
 ```
 
 #####  **File `order/.env`**
 ```bash
-PORT=
-MONGODB_URI=
+MONGODB_AUTH_URI=
 JWT_SECRET=
+MONGODB_PRODUCT_URI=
+MONGODB_ORDER_URI=
+PORT=
 ```
 
 
@@ -190,7 +193,7 @@ Cập nhật `README.md` khi có thay đổi về:
 Khi push lên GitHub:
 ```bash
 git add .
-git commit -m "Update project setup and README"
+git commit -m "commit lần 1"
 git push
 ```
 
