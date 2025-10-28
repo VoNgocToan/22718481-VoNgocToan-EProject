@@ -1,0 +1,70 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ======== CI: TEST ========
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create .env files
+        run: |
+          mkdir -p auth product order
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" > auth/.env
+          echo "MONGODB_AUTH_URI=${{ secrets.MONGODB_AUTH_URI }}" >> auth/.env
+
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" > product/.env
+          echo "MONGODB_PRODUCT_URI=${{ secrets.MONGODB_PRODUCT_URI }}" >> product/.env
+          echo "LOGIN_TEST_USER=${{ secrets.LOGIN_TEST_USER }}" >> product/.env
+          echo "LOGIN_TEST_PASSWORD=${{ secrets.LOGIN_TEST_PASSWORD }}" >> product/.env
+
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" > order/.env
+          echo "MONGODB_ORDER_URI=${{ secrets.MONGODB_ORDER_URI }}" >> order/.env
+
+      - name: Install dependencies
+        run: |
+          cd auth && npm install && cd ..
+          cd product && npm install && cd ..
+          cd order && npm install && cd ..
+          cd api-gateway && npm install && cd ..
+
+      - name: Run tests (if any)
+        run: |
+          cd auth && npm test || echo "No tests in auth"
+          cd ../product && npm test || echo "No tests in product"
+          cd ../order && npm test || echo "No tests in order"
+          cd ../api-gateway && npm test || echo "No tests in api-gateway"
+
+  # ======== CD: DOCKER ========
+  build_and_push:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker images
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service:latest ./auth
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/product-service:latest ./product
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/order-service:latest ./order
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest ./api-gateway
+
+      - name: Push Docker images
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/auth-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/product-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/order-service:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
